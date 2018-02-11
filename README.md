@@ -11,14 +11,14 @@ This arises most frequently when I am integrating completion-block-based network
 
 func getUser(withUserID userID: String, completion: @escaping (Result<User>) -> Void) {
     let request = Request(...)
-    apiClient.sendRequest(request) { result in
+    networkingLayer.sendRequest(request) { result in
         // Process result and call completion
     }
 }
 
 func getUsers(withGroupID groupID: String, completion: @escaping (Result<[User]>) -> Void) {
     let request = Request(...)
-    apiClient.sendRequest(request) { result in
+    networkingLayer.sendRequest(request) { result in
         // Process result and call completion
     }
 }

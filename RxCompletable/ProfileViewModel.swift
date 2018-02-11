@@ -10,8 +10,11 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+// MARK: Fully Reactive
+
 class ProfileViewModel {
     private let userID: String
+    private let userManager: UserManager
     private let user: Observable<User>
     private let group: Observable<[User]>
 
@@ -29,25 +32,29 @@ class ProfileViewModel {
 
     var connectionCount: Driver<String> {
         return group
-            .map({ $0.count - 1})
+            .map({ $0.count - 1 })
             .asDriver(onErrorJustReturn: 0)
             .map({ "\($0) connections" })
     }
 
-    init(userID: String) {
+    init(userID: String, userManager: UserManager) {
         self.userID = userID
+        self.userManager = userManager
 
-        user = UserManager.shared
+        user = userManager
             .getUser(withUserID: userID)
             .share(replay: 1)
         group = user
             .map({ $0.groupID })
-            .flatMapLatest({ UserManager.shared.getUsers(withGroupID: $0) })
+            .flatMapLatest({ userManager.getUsers(withGroupID: $0) })
     }
 }
 
+// MARK: Partially Reactive, Partially Imperative
+
 //class ProfileViewModel {
 //    private let userID: String
+//    private let userManager: UserManager
 //    private let user: BehaviorSubject<User?> = BehaviorSubject(value: nil)
 //    private let group: BehaviorSubject<[User]> = BehaviorSubject(value: [])
 //
@@ -70,13 +77,14 @@ class ProfileViewModel {
 //            .map({ "\($0) connections" })
 //    }
 //
-//    init(userID: String) {
+//    init(userID: String, userManager: UserManager) {
 //        self.userID = userID
+//        self.userManager = userManager
 //
-//        UserManager.shared.getUser(withUserID: userID) { [weak self] result in
+//        userManager.getUser(withUserID: userID) { [weak self] result in
 //            if case .success(let user) = result {
 //                self?.user.onNext(user)
-//                UserManager.shared.getUsers(withGroupID: user.groupID) { [weak self] result in
+//                userManager.getUsers(withGroupID: user.groupID) { [weak self] result in
 //                    if case .success(let users) = result {
 //                        self?.group.onNext(users)
 //                    }
@@ -86,8 +94,11 @@ class ProfileViewModel {
 //    }
 //}
 
+// MARK: Fully Imperative
+
 //class ProfileViewModel {
 //    private let userID: String
+//    private let userManager: UserManager
 //    private var user: User?
 //    private var group: [User] = []
 //
@@ -104,16 +115,25 @@ class ProfileViewModel {
 //        return "\(count) connections"
 //    }
 //
-//    init(userID: String) {
+//    init(userID: String, userManager: UserManager) {
 //        self.userID = userID
-//        UserManager.shared.getUser(withUserID: userID) { [weak self] result in
+//        self.userManager = userManager
+//    }
+//
+//    func reloadData(completion: @escaping (Bool) -> Void) {
+//        userManager.getUser(withUserID: userID) { [weak self] result in
 //            if case .success(let user) = result {
 //                self?.user = user
-//                UserManager.shared.getUsers(withGroupID: user.groupID) { [weak self] result in
+//                self?.userManager.getUsers(withGroupID: user.groupID) { [weak self] result in
 //                    if case .success(let users) = result {
 //                        self?.group = users
+//                        completion(true)
+//                    } else {
+//                        completion(false)
 //                    }
 //                }
+//            } else {
+//                completion(false)
 //            }
 //        }
 //    }

@@ -18,6 +18,7 @@
 		A93C6B2420255A87005F53F5 /* Observable+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93C6B2320255A87005F53F5 /* Observable+Helpers.swift */; };
 		A93C6B2620263340005F53F5 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93C6B2520263340005F53F5 /* ProfileViewController.swift */; };
 		A93C6B282026335C005F53F5 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93C6B272026335C005F53F5 /* ProfileViewModel.swift */; };
+		A9DDB36F202FDE3900B258C0 /* NetworkingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DDB36E202FDE3900B258C0 /* NetworkingLayer.swift */; };
 		F23006B78EDDC014446D6D2A /* Pods_RxCompletable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A2576F2A385A19C151A6F2 /* Pods_RxCompletable.framework */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +52,7 @@
 		A93C6B2320255A87005F53F5 /* Observable+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Helpers.swift"; sourceTree = "<group>"; };
 		A93C6B2520263340005F53F5 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		A93C6B272026335C005F53F5 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		A9DDB36E202FDE3900B258C0 /* NetworkingLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingLayer.swift; sourceTree = "<group>"; };
 		E0B54FDA75C6815EBFD3934A /* Pods_RxCompletableTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxCompletableTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -109,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				A93C6AFE2025590D005F53F5 /* AppDelegate.swift */,
+				A9DDB36E202FDE3900B258C0 /* NetworkingLayer.swift */,
 				A93C6B2520263340005F53F5 /* ProfileViewController.swift */,
 				A93C6B272026335C005F53F5 /* ProfileViewModel.swift */,
 				A93C6B1F20255A34005F53F5 /* User.swift */,
@@ -356,6 +359,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A93C6B282026335C005F53F5 /* ProfileViewModel.swift in Sources */,
+				A9DDB36F202FDE3900B258C0 /* NetworkingLayer.swift in Sources */,
 				A93C6AFF2025590D005F53F5 /* AppDelegate.swift in Sources */,
 				A93C6B2220255A49005F53F5 /* UserManager.swift in Sources */,
 				A93C6B2620263340005F53F5 /* ProfileViewController.swift in Sources */,

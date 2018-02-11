@@ -10,53 +10,40 @@ import Foundation
 import Alamofire
 import RxSwift
 
-enum Method {
-    case GET
-}
-
-struct Request {
-    let method: Method
-    let path: String
-    let authenticated: Bool
-    let parameters: [String:Any]
-}
-
-struct APIClient {
-    func sendRequest(_ request: Request, completion: (Result<Data?>) -> Void) {
-    }
-}
-
 class UserManager {
-    static let shared = UserManager()
-    let apiClient = APIClient()
+    let networkingLayer: NetworkingLayer
+
+    init(networkingLayer: NetworkingLayer) {
+        self.networkingLayer = networkingLayer
+    }
 
     // MARK: Imperative
 
     func getUser(withUserID userID: String, completion: @escaping (Result<User>) -> Void) {
         let request = Request(
             method: .GET,
-            path: "user",
+            path: "users",
             authenticated: true,
             parameters: ["user_id": userID]
         )
-        apiClient.sendRequest(request) { result in
-            // Process result and call completion
+        networkingLayer.sendRequest(request) { result in
+            completion(result)
         }
     }
 
     func getUsers(withGroupID groupID: String, completion: @escaping (Result<[User]>) -> Void) {
         let request = Request(
             method: .GET,
-            path: "user",
+            path: "groups",
             authenticated: true,
             parameters: ["group_id": groupID]
         )
-        apiClient.sendRequest(request) { result in
-            // Process result and call completion
+        networkingLayer.sendRequest(request) { result in
+            completion(result)
         }
     }
 
-    // MARK: Rx
+    // MARK: Rx - With Boilerplate Code
 
 //    func getUser(withUserID userID: String) -> Observable<User> {
 //        return Observable.create({ observer in
@@ -88,6 +75,7 @@ class UserManager {
 //        })
 //    }
 
+    // MARK: Rx - Without Boilerplate Code
 
     func getUser(withUserID userID: String) -> Observable<User> {
         return Observable.create(from: { [weak self] completion in

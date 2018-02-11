@@ -8,8 +8,16 @@
 
 import Foundation
 
-struct User {
+struct User: Codable {
+    let userID: String
     let displayName: String
     let email: String
     let groupID: String
+
+    enum CodingKeys: String, CodingKey {
+        case displayName = "display_name"
+        case groupID = "group_id"
+        case userID = "user_id"
+        case email
+    }
 }
