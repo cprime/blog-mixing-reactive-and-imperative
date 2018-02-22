@@ -6,7 +6,7 @@ _How do I write asynchronous reactive code that calls out to components which re
 
 This arises most frequently when I am integrating completion-block-based networking components with reactive ViewModels. For example, suppose I have a UserManager object that makes API calls and passes the result of those calls back to the caller using completion-blocks:
 
-```
+```swift
 // UserManager
 
 func getUser(withUserID userID: String, completion: @escaping (Result<User>) -> Void) {
@@ -26,7 +26,7 @@ func getUsers(withGroupID groupID: String, completion: @escaping (Result<[User]>
 
 Unfortunately, these functions alone do not enable me to write "good" reactive code in my ViewModel. At first, I thought the best I could do was to rely on BehaviorSubjects, and to mix imperative and reactive code as follows:
 
-```
+```swift
 // ViewModel
 
 private let user: BehaviorSubject<User?> = BehaviorSubject(value: nil)
@@ -46,7 +46,7 @@ UserManager.shared.getUser(withUserID: userID) { [weak self] result in
 
 Thinking about it a bit more, a better approach would be to wrap the existing completion-block-based UserManager functions, returning Observables. This approach is better because it exposes a reactive interface to the ViewModel. In this case, this reactive interface is:
 
-```
+```swift
 // UserManager
 
 func getUser(withUserID userID: String) -> Observable<User> {
@@ -84,7 +84,7 @@ However, this unfortunately requires me to generate a lot of boilerplate code. A
 
 Fortunately, I then realized I could define a single Observable extension to eliminate the boilerplate code. In this extension, an Observable is created by passing in a closure that takes in the completion-block as an argument:
 
-```
+```swift
 extension Observable {
     static func create(from block: @escaping (@escaping (Result<Element>) -> Void) -> ()) -> Observable<Element> {
         return Observable.create({ observer in
@@ -105,7 +105,7 @@ extension Observable {
 
 After creating this extension, I can simplify my UserManager functions to:
 
-```
+```swift
 // UserManager
 
 func getUser(withUserID userID: String) -> Observable<User> {
@@ -123,7 +123,7 @@ func getUsers(withGroupID groupID: String) -> Observable<[User]> {
 
 And rewrite my ViewModel code as:
 
-```
+```swift
 // ViewModel
 
 private let user: Observable<User>

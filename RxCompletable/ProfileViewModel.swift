@@ -14,7 +14,7 @@ import RxCocoa
 
 class ProfileViewModel {
     private let userID: String
-    private let userManager: UserManager
+    private let userManager: UserManagerType
     private let user: Observable<User>
     private let group: Observable<[User]>
 
@@ -37,7 +37,7 @@ class ProfileViewModel {
             .map({ "\($0) connections" })
     }
 
-    init(userID: String, userManager: UserManager) {
+    init(userID: String, userManager: UserManagerType) {
         self.userID = userID
         self.userManager = userManager
 

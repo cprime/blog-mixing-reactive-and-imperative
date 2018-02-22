@@ -10,7 +10,12 @@ import Foundation
 import Alamofire
 import RxSwift
 
-class UserManager {
+protocol UserManagerType: class {
+    func getUser(withUserID userID: String, completion: @escaping (Result<User>) -> Void)
+    func getUsers(withGroupID groupID: String, completion: @escaping (Result<[User]>) -> Void)
+}
+
+class UserManager: UserManagerType {
     let networkingLayer: NetworkingLayer
 
     init(networkingLayer: NetworkingLayer) {
@@ -42,12 +47,14 @@ class UserManager {
             completion(result)
         }
     }
+}
 
+extension UserManagerType {
     // MARK: Rx - With Boilerplate Code
 
 //    func getUser(withUserID userID: String) -> Observable<User> {
-//        return Observable.create({ observer in
-//            self.getUser(withUserID: userID, completion: { result in
+//        return Observable.create({ [weak self] observer in
+//            self?.getUser(withUserID: userID, completion: { result in
 //                switch result {
 //                case .success(let element):
 //                    observer.on(.next(element))
@@ -61,8 +68,8 @@ class UserManager {
 //    }
 //
 //    func getUsers(withGroupID groupID: String) -> Observable<[User]> {
-//        return Observable.create({ observer in
-//            self.getUsers(withGroupID: groupID, completion: { result in
+//        return Observable.create({ [weak self] observer in
+//            self?.getUsers(withGroupID: groupID, completion: { result in
 //                switch result {
 //                case .success(let element):
 //                    observer.on(.next(element))
